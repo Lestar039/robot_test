@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: postgres:latest
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
+      interval: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - sber_net
+
+  web:
+    build:
+      context: ./app
+    restart: always
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    networks:
+      - sber_net
+
+  logger:
+    build:
+      context: ./logger
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    ports:
+      - "${LOGGER_PORT}:${LOGGER_PORT}"
+    volumes:
+      - .:/logger
+    networks:
+      - sber_net
+
+volumes:
+  pgdata:
+
+networks:
+  sber_net:

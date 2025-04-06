@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Список файлов{% endblock %}
+
+{% block content %}
+
+    <div class="mt-4">
+        <a href="/files/files" class="btn btn-secondary mt-3">Список файлов</a>
+    </div>
+
+    <div class="container mt-4">
+        <h2 class="mb-3">Список файлов</h2>
+
+        {% if mime_type.startswith('image/') %}
+            <div class="card mb-4">
+                <img src="{{ file_location }}" alt="{{ filename }}" class="card-img-top" style="max-height: 500px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ filename }}</h5>
+                    <p class="card-text">Изображение.</p>
+                </div>
+            </div>
+        {% elif mime_type.startswith('video/') %}
+            <div class="card mb-4">
+                <video class="w-100 border rounded" controls>
+                    <source src="{{ file_location }}" type="{{ mime_type }}">
+                    Ваш браузер не поддерживает видео.
+                </video>
+                <div class="card-body">
+                    <h5 class="card-title">{{ filename }}</h5>
+                    <p class="card-text">Видео.</p>
+                </div>
+            </div>
+        {% else %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">{{ filename }}</h5>
+                    <p class="card-text">Неизвестный тип файла. <a href="{{ file_location }}" download>Скачать</a>.</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

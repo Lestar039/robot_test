@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Загрузка файлов{% endblock %}
+
+{% block content %}
+{% if user %}
+  <div class="container mt-5">
+    <h2 class="mb-4">Загрузка файлов</h2>
+
+    <form id="uploadForm" enctype="multipart/form-data" method="post">
+      <div class="mb-3">
+        <input type="file" class="form-control" id="files" name="files" multiple required>
+      </div>
+      <button type="submit" class="btn btn-primary">Загрузка</button>
+    </form>
+
+    {% if saved_files %}
+      <div class="alert alert-success mt-4">
+        <h5>Файлы успешно загружены:</h5>
+        <ul class="list-group list-group-flush">
+          {% for name, path in saved_files %}
+            <li class="list-group-item">
+              <a href="{{ path }}" target="_blank">{{ name }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <a href="/files/files" class="btn btn-secondary mt-3">Список файлов</a>
+  </div>
+{% else %}
+  <div class="container mt-5">
+    <div class="alert alert-warning">
+      <p>Please log in to upload files.</p>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}

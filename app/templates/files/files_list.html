@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Список файлов{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Files List</h2>
+
+      {% if files %}
+        <div class="mb-3">
+          <label for="fileType" class="form-label">Filter by Type:</label>
+          <select class="form-select" id="fileType" onchange="filterFiles()">
+            <option value="all">Все</option>
+            <option value="image">Изображения</option>
+            <option value="video">Видео</option>
+            <option value="other">Другое</option>
+          </select>
+        </div>
+
+    <div class="row">
+        {% for file in files %}
+            <div class="col-md-3 mb-4 file-card" data-type="{{ file.mime_type.split('/')[0] }}">
+                <div class="card">
+                    <div class="card-body">
+                        {% set file_path = file.path %}
+                        {% set mime_type = file.mime_type %}
+                        {% if mime_type.startswith('image/') %}
+                            <a href="/files/{{ file.filename }}" target="_self">
+                                <img src="{{ file_path }}" alt="{{ file.filename }}" class="card-img-top" style="max-height: 200px; object-fit: cover;">
+                            </a>
+                        {% elif mime_type.startswith('video/') %}
+                            <a href="/files/{{ file.filename }}" target="_self">
+                                <video class="card-img-top" style="max-height: 200px; object-fit: cover;" muted>
+                                    <source src="{{ file_path }}" type="{{ mime_type }}">
+                                    Ваш браузер не поддерживает просмотр видео.
+                                </video>
+                            </a>
+                        {% else %}
+                            <i class="fas fa-file-alt fa-3x text-muted"></i>
+                        {% endif %}
+                        <h5 class="card-title mt-2">{{ file.filename }}</h5>
+                        <a href="{{ file_path }}" class="btn btn-success" download="{{ filename }}">Скачать {{ filename }}</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <div class="alert alert-info">У вас еще нет файлов.</div>
+    {% endif %}
+    <a href="/files/upload" class="btn btn-primary mt-3">Загрузить файлы</a>
+</div>
+
+<script>
+function filterFiles() {
+  const selectedType = document.getElementById('fileType').value;
+  document.querySelectorAll('.file-card').forEach(card => {
+    const type = card.getAttribute('data-type');
+    card.style.display = (selectedType === 'all' || selectedType === type) ? 'block' : 'none';
+  });
+}
+</script>
+{% endblock %}

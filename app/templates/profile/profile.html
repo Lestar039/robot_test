@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block content %}
+<h2>Личный кабинет</h2>
+<ul class="list-group">
+  <li class="list-group-item"><strong>Логин:</strong> {{ user.login }}</li>
+  <li class="list-group-item"><strong>ФИО:</strong> {{ user.full_name }}</li>
+  <li class="list-group-item"><strong>Компания:</strong> {{ user.company }}</li>
+  <li class="list-group-item"><strong>Должность:</strong> {{ user.position }}</li>
+</ul>
+<a href="/profile/edit" class="btn btn-primary mt-3">Изменить данные</a>
+{% endblock %}

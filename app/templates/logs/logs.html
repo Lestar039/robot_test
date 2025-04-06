@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Логи пользователя{% endblock %}
+
+{% block content %}
+<h2>Логи пользователя</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Дата</th>
+            <th scope="col">Метод</th>
+            <th scope="col">URL</th>
+            <th scope="col">Код</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for log in logs %}
+        <tr>
+            <td>{{ log.timestamp }}</td>
+            <td>{{ log.method }}</td>
+            <td>{{ log.url }}</td>
+            <td>{{ log.status_code }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}

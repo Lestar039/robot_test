@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Редактирование данных{% endblock %}
+
+{% block content %}
+<h2>Редактировать профиль</h2>
+<form method="post" action="/profile/edit">
+  <div class="mb-3">
+    <label class="form-label">ФИО</label>
+    <input type="text" name="full_name" value="{{ user.full_name }}" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Компания</label>
+    <input type="text" name="company" value="{{ user.company }}" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Должность</label>
+    <input type="text" name="position" value="{{ user.position }}" class="form-control" required>
+  </div>
+  <button type="submit" class="btn btn-success">Сохранить</button>
+</form>
+<a href="/profile" class="btn btn-secondary mt-2">Назад</a>
+{% endblock %}
