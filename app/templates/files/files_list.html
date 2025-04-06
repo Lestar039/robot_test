@@ -4,11 +4,11 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Files List</h2>
+    <h2>Список файлов</h2>
 
       {% if files %}
         <div class="mb-3">
-          <label for="fileType" class="form-label">Filter by Type:</label>
+          <label for="fileType" class="form-label">Фильтр по типу:</label>
           <select class="form-select" id="fileType" onchange="filterFiles()">
             <option value="all">Все</option>
             <option value="image">Изображения</option>
